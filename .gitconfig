@@ -1,0 +1,25 @@
+# This is Git's per-user configuration file.
+[user]
+	name = Igor Nikolaev
+	email = igor.nikolaev@zalando.fi
+[alias]
+        ci = commit
+        cm = commit -m
+        co = checkout
+ 
+#       ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+#       ll = log --pretty=format:"%C(green)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
+        ls = log --pretty=format:%C(green)%h\\ %C(yellow)[%ad]%Cred%d\\ %Creset%s%Cblue\\ [%cn] --decorate --date=relative
+        ss = status -s
+	st = status
+	pr = "!f() { git fetch -fu ${2:-$(git remote |grep ^upstream || echo origin)} refs/pull/$1/head:pr/$1 && git checkout pr/$1; }; f"
+	pr-clean = "!git for-each-ref refs/heads/pr/* --format=\"%(refname)\" | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
+
+[core]
+	autocrlf = input
+	commentchar = %
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
